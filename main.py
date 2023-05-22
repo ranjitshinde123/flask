@@ -1,11 +1,11 @@
 import os
 from datetime import datetime
 
-# import pandas as pd
 import xml.etree.ElementTree as ET
 
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import pandas as pd
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+
 import mysql.connector
 
 app = Flask(__name__)
