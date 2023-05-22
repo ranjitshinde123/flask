@@ -29,7 +29,7 @@ mysql = mysql.connector.connect(
 # Route for uploading Excel file
 @app.route('/')
 def upload():
-    folder = r'C:\Users\DELL\PycharmProjects\FCA\uploads'
+    folder = r'templates/uploads'
     files = os.listdir(folder)
     return render_template('upload.html',files=files)
 
