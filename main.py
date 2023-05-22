@@ -29,14 +29,14 @@ mysql = mysql.connector.connect(
 # Route for uploading Excel file
 @app.route('/')
 def upload():
-    folder = r'templates/uploads'
-    files = os.listdir(folder)
-    return render_template('upload.html',files=files)
+    folder = r'/templates/uploads/'
+#     files = os.listdir(folder)
+    return render_template('upload.html',files=folder)
 
 # @app.route('/all')
 # def index():
 #     # Get the list of files in the folder
-#     folder = r'C:\Users\DELL\PycharmProjects\chatGpt\chat\uploads'
+#     folder = r'/templates/uploads/'
 #     files = os.listdir(folder)
 #     # Render the template with the list of files
 #     return render_template('home.html', files=files)
