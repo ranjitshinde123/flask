@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body bgcolor="sky blue">
+<center>
+<!-- (A) SEARCH FORM -->
+<form method="post">
+  <input type="text" name="search" required>
+<!--  <input type="submit" value="Search">-->
+    <button type="submit" value="submit">Search</button>
+</form>
+
+<!-- (B) OUTPUT SEARCH RESULTS -->
+
+<br><br><table  border="1" id="demo">
+    <tr>
+    <th>Production Month</th>
+    <th>Model</th>
+    <th> MIS TYPE </th>
+    <th>PPM</th>
+    <th>Failures</th>
+    <th>Fleet</th>
+    <th>Maturity</th>
+  </tr>
+  {% for i in usr %}
+  <tr>
+    <td>{{ i[0] }}</td>
+    <td>RIS</td>
+    <td>{{ i[1] }}</td>
+    <td>{{ i[5] }}</td>
+    <td>{{ i[6] }}</td>
+    <td>{{ i[7] }}</td>
+    <td>{{ i[12] }}</td>
+  </tr>
+  {% endfor %}
+</table>
+</center>
+</body>
+</html>
