@@ -12,26 +12,26 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-mysql = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="",
-  database="mydb"
-)
 # mysql = mysql.connector.connect(
-#   host="containers-us-west-207.railway.app",
+#   host="localhost",
 #   user="root",
-#   password="BjHMCyg2DVsWsCUwiKh2",
-#   database="railway",
-#   port="7285"
+#   password="",
+#   database="mydb"
 # )
+mysql = mysql.connector.connect(
+  host="containers-us-west-207.railway.app",
+  user="root",
+  password="BjHMCyg2DVsWsCUwiKh2",
+  database="railway",
+  port="7285"
+)
 
 # Route for uploading Excel file
 @app.route('/')
 def upload():
     folder = r'/templates/uploads/'
 #     files = os.listdir(folder)
-    return render_template('upload.html',files=folder)
+    return render_template('/templates/upload.html',files=folder)
 
 # @app.route('/all')
 # def index():
