@@ -31,7 +31,7 @@ app = Flask(__name__)
 def upload():
     folder = r'/templates/uploads/'
 #     files = os.listdir(folder)
-    return render_template('templates/upload.html',files=folder)
+    return render_template('upload.html',files=folder)
 
 # # @app.route('/all')
 # # def index():
