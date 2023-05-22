@@ -9,8 +9,8 @@ import pandas as pd
 import mysql.connector
 
 app = Flask(__name__)
-UPLOAD_FOLDER = 'uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# UPLOAD_FOLDER = 'uploads'
+# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # mysql = mysql.connector.connect(
 #   host="localhost",
@@ -18,20 +18,20 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #   password="",
 #   database="mydb"
 # )
-mysql = mysql.connector.connect(
-  host="containers-us-west-207.railway.app",
-  user="root",
-  password="BjHMCyg2DVsWsCUwiKh2",
-  database="railway",
-  port="7285"
-)
+# mysql = mysql.connector.connect(
+#   host="containers-us-west-207.railway.app",
+#   user="root",
+#   password="BjHMCyg2DVsWsCUwiKh2",
+#   database="railway",
+#   port="7285"
+# )
 
 # Route for uploading Excel file
 @app.route('/')
 def upload():
     folder = r'/templates/uploads/'
 #     files = os.listdir(folder)
-    return render_template('/templates/upload.html',files=folder)
+    return render_template('templates/upload.html',files=folder)
 
 # # @app.route('/all')
 # # def index():
