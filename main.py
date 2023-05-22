@@ -18,13 +18,13 @@ mysql = mysql.connector.connect(
   password="",
   database="mydb"
 )
-mysql = mysql.connector.connect(
-  host="containers-us-west-207.railway.app",
-  user="root",
-  password="BjHMCyg2DVsWsCUwiKh2",
-  database="railway",
-  port="7285"
-)
+# mysql = mysql.connector.connect(
+#   host="containers-us-west-207.railway.app",
+#   user="root",
+#   password="BjHMCyg2DVsWsCUwiKh2",
+#   database="railway",
+#   port="7285"
+# )
 
 # Route for uploading Excel file
 @app.route('/')
