@@ -2,93 +2,30 @@ import os
 from datetime import datetime
 
 import xml.etree.ElementTree as ET
+import  pandas as pd
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, send_file
 
-import pandas as pd
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
-
-import mysql.connector
+# import pandas as pd
 
 app = Flask(__name__)
-# UPLOAD_FOLDER = 'uploads'
-# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# mysql = mysql.connector.connect(
-#   host="localhost",
-#   user="root",
-#   password="",
-#   database="mydb"
-# )
-mysql = mysql.connector.connect(
-  host="containers-us-west-207.railway.app",
-  user="root",
-  password="BjHMCyg2DVsWsCUwiKh2",
-  database="railway",
-  port="7285"
-)
 
-# Route for uploading Excel file
+
 @app.route('/')
 def upload():
     folder = r'/templates/uploads/'
-#     files = os.listdir(folder)
-    return render_template('upload.html',files=folder)
-
-# @app.route('/all')
-# def index():
-#     # Get the list of files in the folder
-#     folder = r'/templates/uploads/'
-#     files = os.listdir(folder)
-#     # Render the template with the list of files
-#     return render_template('home.html', files=files)
-
-def getusers(search):
-  # conn = sqlite3.connect(DBFILE)
-  cursor = mysql.cursor()
-  print("hello")
-  # cursor.execute(
-  #   "SELECT * FROM table_name WHERE 'Production_Month'",
-  #   ("%"+search+"%", "%"+search+"%",)
-  # )
-
-  cursor.execute(f"select * from table_name where Production_Month={search}")
-  results = cursor.fetchall()
-  print(results)
-  cursor.close()
-  return results
+    # files = os.listdir(folder)
+    return render_template(r'upload.html',files=folder)
 
 
-@app.route("/all", methods=["GET", "POST"])
-def index():
-    # (C1) SEARCH FOR USERS
-    if request.method == "POST":
-        data = dict(request.form)
-        print(data)
-        users = getusers(data["search"])
-        print(users)
-    else:
-        users = []
-    # (C2) RENDER HTML PAGE
-    return render_template("s3_users.html", usr=users)
-
-
-# @app.route('/', methods=['GET', 'POST'])
-# def login():
-#     if request.method == 'POST':
-#         # Check if the username and password are correct
-#         username = request.form['username']
-#         password = request.form['password']
-#         if username == 'admin' and password == 'password':
-#             return redirect(url_for('upload'))
-#         else:
-#             error = 'Invalid Credentials. Please try again.'
-#             return render_template('login.html', error=error)
-#     return render_template('login.html')
-
-@app.route('/file/<path:filename>')
-def download_file(filename):
+@app.route('/show')
+def show():
     # Serve the file to the user
-    folder = r'C:\Users\DELL\PycharmProjects\chatGpt\chat\uploads'
-    return send_from_directory(folder, filename)
+    # folder = r'templates\uploads'
+    pass
+    return render_template('test.html')
 
 # Route for processing the uploaded file
 @app.route('/process', methods=['POST'])
@@ -100,59 +37,124 @@ def process():
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
     print(file)
-    df = pd.read_excel(file)
-    cursor = mysql.cursor()
-    for i, row in df.iterrows():
-        Production_Month = row['Production Month']
-        PPM_1MIS = row['PPM 1MIS']
-        Failures_1_MIS = row['Failures 1 MIS']
-        Fleet_1_MIS = row['Fleet 1 MIS']
-        Maturity_1_MIS = row['Maturity 1 MIS']
-        PPM_3MIS = row['PPM 3MIS']
-        Failures_3MIS = row['Failures 3MIS']
-        Fleet_3_MIS = row['Fleet 3 MIS']
-        Maturity_3_MIS = row['Maturity 3 MIS']
-        PPM_12_MIS = row['PPM 12 MIS']
-        Failures_12_MIS = row['Failures 12 MIS']
-        Fleet_12_MIS = row['Fleet 12 MIS']
-        Maturity_12_MIS = row['Maturity 12 MIS']
-        Prod_Volume = row['Prod Volume']
-        Sold_Volume = row['Sold Volume']
+    # df = pd.read_excel(file)
+    d = pd.read_excel(file, sheet_name="RoW")
+    f = d['Production Month']
+    a = list(f)  # total production Month
+    r = []  # all Month
+    for i in range(len(a)):
+        for j in range(0, 3):
+            r.append(a[i])
 
-        cursor.execute("INSERT INTO table_name (Production_Month, PPM_1MIS, Failures_1_MIS, Fleet_1_MIS, Maturity_1_MIS, PPM_3MIS, Failures_3MIS, Fleet_3_MIS, Maturity_3_MIS, PPM_12_MIS, Failures_12_MIS, Fleet_12_MIS, Maturity_12_MIS, Prod_Volume, Sold_Volume) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(Production_Month, PPM_1MIS, Failures_1_MIS, Fleet_1_MIS, Maturity_1_MIS, PPM_3MIS, Failures_3MIS, Fleet_3_MIS, Maturity_3_MIS, PPM_12_MIS, Failures_12_MIS, Fleet_12_MIS, Maturity_12_MIS, Prod_Volume, Sold_Volume))
-        mysql.commit()
-    cursor.close()
+    y = []  # MIS Type 1,3,15
+    for i in range(len(a)):
+        sum = 1
+        e = 3
+        t = 12
+        y.append(sum)
+        y.append(e)
+        y.append(t)
+    #
+    # for i in r:
+    #     print(i)
+    # i=1
+    # p=d.iloc[[i],[1,2,3,4]]
+    # print(p)
+    #
+    # q=d.iloc[[i],[4,5,6,7]]
+    # r=d.iloc[[i],[8,9,10,11]]
+    # print(q)
+    # print(r)
 
-    df = pd.read_excel(file)
+    # for j in range(len(a)):
+    #     p = d.iloc[[j], [1, 2, 3, 4]]
+    #     q = d.iloc[[j], [5, 6, 7,8]]
+    #     r = d.iloc[[j], [9, 10, 11,12]]
+    #     print
 
-    root = ET.Element("data")
+    # code for PPM
 
-    for index, row in df.iterrows():
-        # Create an element for each row
-        row_element = ET.SubElement(root, "row")
+    j=d['PPM 1MIS']
+    k=d['PPM 3MIS']
+    l=d['PPM 12 MIS']
+    o=[]
+    for i in range(len(a)):
 
-        for column_name, value in row.items():
+        o.append([j[i],k[i],l[i]])
+    z=[]
 
-            column_element = ET.SubElement(row_element, column_name)
-            column_element.text = str(value)
+    for i in o:
+         for j in i:
+                z.append(j)
 
-    tree = ET.ElementTree(root)
-    a=filename.replace('.xlsx','')
-    output_filename = a+'.xml'
-    tree.write(output_filename, encoding="UTF-8", xml_declaration=True)
-    cur = mysql.cursor()
-    query="select * from table_name"
-    cur.execute(query)
-    data = cur.fetchall()
+    # code for Failures
 
-    return render_template('xml_file.html', filename=output_filename,a=data)
+    j1 = d['Failures 1 MIS']
+    k1 = d['Failures 3MIS']
+    l1 = d['Failures 12 MIS']
+    o1 = []
+    for i in range(len(a)):
+        o1.append([j1[i], k1[i], l1[i]])
+    z1 = []
 
+    for i in o1:
+        for j in i:
+            z1.append(j)
 
-@app.route('/download/<filename>', methods=['GET'])
-def download(filename):
-    directory = os.getcwd()
-    return send_from_directory(directory, filename, as_attachment=True)
+    # code for Fleet
 
+    j2 = d['Fleet 1 MIS']
+    k2 = d['Fleet 3 MIS']
+    l2 = d['Fleet 12 MIS']
+    o2 = []
+    for i in range(len(a)):
+        o2.append([j2[i], k2[i], l2[i]])
+    z2 = []
+
+    for i in o2:
+        for j in i:
+            z2.append(j)
+
+    # code for Maturity
+
+    j3 = d['Maturity 1MIS']
+    k3 = d['Maturity 3MIS']
+    l3 = d['Maturity 12 MIS']
+    o3 = []
+    for i in range(len(a)):
+        o3.append([j3[i], k3[i], l3[i]])
+    z3 = []
+
+    for i in o3:
+        for j in i:
+            z3.append(j)
+
+    print(z3)
+    # root = ET.Element()
+    # tree = ET.ElementTree(root)
+    df1 = pd.DataFrame({'Production Month': r, 'MIS TYPE': y, 'PPM': z, "Failures": z1, "Fleet": z2, "Maturity": z3, "MODEL": "Compas ROw"})
+    df1 = df1.set_index('Production Month')
+    datatoexcel = pd.ExcelWriter('xml_files/Domastic1.xlsx')
+    # b1='xml_files/Domastic1.xlsx'
+    output_filename = df1.to_excel(datatoexcel)
+    print(output_filename)
+    datatoexcel.save()
+    b=df1.to_html('templates/test.html')
+
+    # output_filename=df1.to_excel("Domatic_Demo.xlsx")
+    # tree.write(output_filename, encoding="UTF-8", xml_declaration=True)
+    return render_template('xml_file.html',b=df1, er=b)
+
+# @app.route('/download/<filename>', methods=['GET'])
+# def download(filename):
+#     directory = os.getcwd()
+#     return send_from_directory(directory, filename, as_attachment=True)
+
+@app.route('/download')
+def download ():
+    #For windows you need to use drive name [ex: F:/Example.pdf]
+    path = "xml_files/Domastic1.xlsx"
+    return send_file(path, as_attachment=True)
 
 
 if __name__ == '__main__':
