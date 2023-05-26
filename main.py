@@ -138,7 +138,7 @@ def process():
     # b1='xml_files/Domastic1.xlsx'
     output_filename = df1.to_excel(datatoexcel)
     print(output_filename)
-    datatoexcel.save()
+    datatoexcel.book.save()
     b=df1.to_html('templates/test.html')
 
     # output_filename=df1.to_excel("Domatic_Demo.xlsx")
