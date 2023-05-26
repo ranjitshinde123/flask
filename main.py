@@ -154,7 +154,7 @@ def process():
 def download ():
     #For windows you need to use drive name [ex: F:/Example.pdf]
     path = "templates/Domastic1.xlsx"
-    return send_file(path, as_attachment=True)
+    return send_file(path, as_attachment=True,mimetype='application/vnd.ms-excel')
 
 
 if __name__ == '__main__':
