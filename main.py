@@ -134,11 +134,11 @@ def process():
     # tree = ET.ElementTree(root)
     df1 = pd.DataFrame({'Production Month': r, 'MIS TYPE': y, 'PPM': z, "Failures": z1, "Fleet": z2, "Maturity": z3, "MODEL": "Compas ROw"})
     df1 = df1.set_index('Production Month')
-    datatoexcel = pd.ExcelWriter('templates/Domastic1.xlsx',engine='openpyxl')
+    datatoexcel = pd.ExcelWriter('templates/Domastic1.xlsx')
     # b1='xml_files/Domastic1.xlsx'
     output_filename = df1.to_excel(datatoexcel)
     print(output_filename)
-    datatoexcel.book.save('Domastic1.xlsx')
+    datatoexcel.book.save('templates/Domastic1.xlsx')
     b=df1.to_html('templates/test.html')
 
     # output_filename=df1.to_excel("Domatic_Demo.xlsx")
