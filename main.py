@@ -22,7 +22,7 @@ def upload():
 
 @app.route('/show')
 def show():
-    # Serve the file to the user
+   
     # folder = r'templates\uploads'
     pass
     return render_template('test.html')
