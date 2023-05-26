@@ -134,7 +134,7 @@ def process():
     # tree = ET.ElementTree(root)
     df1 = pd.DataFrame({'Production Month': r, 'MIS TYPE': y, 'PPM': z, "Failures": z1, "Fleet": z2, "Maturity": z3, "MODEL": "Compas ROw"})
     df1 = df1.set_index('Production Month')
-    datatoexcel = pd.ExcelWriter('xml_files/Domastic1.xlsx')
+    datatoexcel = pd.ExcelWriter('templates/Domastic1.xlsx')
     # b1='xml_files/Domastic1.xlsx'
     output_filename = df1.to_excel(datatoexcel)
     print(output_filename)
@@ -153,7 +153,7 @@ def process():
 @app.route('/download')
 def download ():
     #For windows you need to use drive name [ex: F:/Example.pdf]
-    path = "xml_files/Domastic1.xlsx"
+    path = "templates/Domastic1.xlsx"
     return send_file(path, as_attachment=True)
 
 
