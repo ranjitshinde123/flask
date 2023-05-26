@@ -8,14 +8,14 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 # import pandas as pd
 
 app = Flask(__name__)
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = 'templates'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 
 @app.route('/')
 def upload():
-    folder = r'/templates/uploads/'
+    folder = r'/templates'
     # files = os.listdir(folder)
     return render_template(r'upload.html',files=folder)
 
