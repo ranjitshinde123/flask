@@ -153,7 +153,20 @@ def process():
 @app.route('/download')
 def download ():
     #For windows you need to use drive name [ex: F:/Example.pdf]
-    path = "templates/Domastic1.xlsx"
+    try:
+        path = openpyxl.load_workbook('templates/Domastic1.xlsx')
+    # Continue with processing the workbook if it loads successfully
+    except openpyxl.utils.exceptions.InvalidFileException:
+    # Handle the specific exception for a corrupted file
+        return "Error: The Excel file is corrupted and cannot be opened."
+    except FileNotFoundError:
+    # Handle the exception for a file not found
+        return "Error: File not found."
+    except Exception as e:
+    # Handle any other general exception
+        return "Error: An unexpected error occurred."
+    
+#     path = "templates/Domastic1.xlsx"
     return send_file(path, as_attachment=True,mimetype='application/vnd.ms-excel')
 
 
